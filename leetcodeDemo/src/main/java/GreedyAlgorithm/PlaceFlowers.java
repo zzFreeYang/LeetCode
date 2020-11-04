@@ -8,8 +8,27 @@ package GreedyAlgorithm;
  输入: flowerbed = [1,0,0,0,1], n = 1
  输出: True
  */
+
+/**
+ * 思路: 当某一个是0时 检测周边两个是不是0 ，都是的话可以+1
+ *      注意:
+ */
 public class PlaceFlowers {
     public static void main(String[] args) {
-
+        int[] flowerbed ={1,0,0,0,1};
+        int n = 1;
+        int count = 0 ;
+        int i = 0;
+        while( i < flowerbed.length){
+            if(flowerbed[i]==0 && (i == 0 || flowerbed[i -1] == 0) && (i == flowerbed.length-1 || flowerbed[i+1] == 0)){
+                flowerbed[i++] = 1;
+                count++;
+            }
+            if(count >= n) {
+//                return true;
+            }
+            i++;
+        }
+//        return false;
     }
 }
