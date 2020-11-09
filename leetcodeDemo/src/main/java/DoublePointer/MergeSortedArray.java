@@ -19,15 +19,26 @@ public class MergeSortedArray {
         int[] nums2 = {2,5,6};
         int n =3;
         //************  start 1 *******************
-        int j = 0 ;
-        for(int i = 0 ; i < nums1.length ; i++){
-            if(nums1[i] == 0 && j <nums2.length){
-                nums1[i] = nums2[j];
-                j++;
-            }
-        }
-        Arrays.sort(nums1);
+//        int j = 0 ;
+//        for(int i = 0 ; i < nums1.length ; i++){
+//            if(nums1[i] == 0 && j <nums2.length){
+//                nums1[i] = nums2[j];
+//                j++;
+//            }
+//        }
+//        Arrays.sort(nums1);
         //************** end 1 *******************
+        //************  start 2  双指针 从后往前插入*******************
+        int p1 = m - 1;
+        int p2 = n - 1;
+        int p = m + n - 1;
+        while ((p1 >= 0) && (p2 >= 0)){
+            nums1[p--] = (nums1[p1] < nums2[p2]) ? nums2[p2--] : nums1[p1--];
+        }
+        System.arraycopy(nums2, 0, nums1, 0, p2 + 1);
+
+
+
         for (int a :nums1) {
             System.out.println(a);
         }
