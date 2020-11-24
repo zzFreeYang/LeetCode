@@ -19,3 +19,16 @@ ReentrantLock的可再入概念：当一个线程试图获取一个它已经获�
         fairLock.lock();
         try { // do something}
         finally { fairLock.unlock();}
+      4.基础使用当锁定没有被另一个线程所拥有时，调用 lock 的线程将成功获取该锁定并返回。如果当前线程已经拥有该锁定，此方法将立即返回
+      5.可参考Demo:A20201123 中SafeActionByReentrantLock方法
+      6.可重入锁的测试: 在Try中 lock 两次，然后在 finally 中 unlock 两次，程序可以正常运行。原理：
+        ReentrantLock源码解读：
+        lock的代码:
+            public void lock() {
+                sync.acquire(1);   //同步变量 sync
+            }
+        acquire 是 AbstractQueuedSynchronizer 类的方法，该类简称 AQS ，为构建不同的同步组件(重入锁,读写锁,CountDownLatch等)提供了可扩展的基础框架。
+        AQS以模板方法模式在内部定义了获取和释放同步状态的模板方法,并留下钩子函数供子类继承时进行扩展,由子类决定在获取和释放同步状态时的细节,从而实现满足自身功能特性的需求。
+        除此之外,AQS通过内部的同步队列管理获取同步状态失败的线程,向实现者屏蔽了线程阻塞和唤醒的细节。
+        究极分析:
+        https://www.cnblogs.com/takumicx/p/9402021.html
