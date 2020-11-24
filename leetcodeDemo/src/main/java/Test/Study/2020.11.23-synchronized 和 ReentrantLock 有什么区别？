@@ -1,0 +1,21 @@
+synchronized 和 ReentrantLock 有什么区别？
+
+synchronized 是 Java 内建的同步机制
+ReentrantLock，通常翻译为再入锁，是 Java 5 提供的锁实现。再入锁通过代码直接调用 lock() 方法获取。
+ReentrantLock 提供了很多实用的方法，能够实现很多 synchronized 无法做到的细节控制，比如可以控制 fairness，也就是公平性，或者利用定义条件等。
+但是，编码中也需要注意，必须要明确调用 unlock() 方法释放，不然就会一直持有该锁。
+
+原子性，简单说就是相关操作不会中途被其他线程干扰，一般通过同步机制实现。
+可见性，是一个线程修改了某个共享变量，其状态能够立即被其他线程知晓，通常被解释为将线程本地状态反映到主内存上，volatile 就是负责保证可见性的。
+有序性，是保证线程内串行语义，避免指令重排等。
+
+==================================================================================================
+ReentrantLock的可再入概念：当一个线程试图获取一个它已经获取的锁时，这个获取动作就自动成功。
+      1.也就是说锁的持有是以线程为单位而不是基于调用次数。
+      2.再入锁可以设置公平性（fairness），我们可在创建再入锁时选择是否是公平的。 ReentrantLock fairLock = new ReentrantLock(true);
+         2.1 公平性:公平性为真时，会倾向于将锁赋予等待时间最久的线程
+      3.良好的代码习惯:
+        ReentrantLock fairLock = new ReentrantLock(true);// 这里是演示创建公平锁，一般情况不需要。
+        fairLock.lock();
+        try { // do something}
+        finally { fairLock.unlock();}
