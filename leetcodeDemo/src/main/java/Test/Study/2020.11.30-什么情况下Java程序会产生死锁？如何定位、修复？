@@ -1,0 +1,37 @@
+死锁是一种特定的程序状态，在实体之间，由于循环依赖导致彼此一直处于等待之中，没有任何个体可以继续前进。
+死锁不仅仅是在线程之间会发生，存在资源独占的进程之间同样也可能出现死锁。
+通常来说，我们大多是聚焦在多线程场景中的死锁，指两个或多个线程之间，由于互相持有对方需要的锁，而永久处于阻塞的状态。
+
+用Mysql举例:有一个事务，分别 update a行和b行，完成了才提交 . 两个进程反序进行，各自锁定了一行，然后相互等待进入死锁。
+
+
+
+
+定位死锁最常见的方式就是利用 jstack 等工具获取线程栈，然后定位互相之间的依赖关系，进而找到死锁。
+示例代码 A20201130:
+死锁检测:
+1. 通过 jps获取pid等信息
+        jps(Java Virtual Machine Process Status Tool)是java提供的一个显示当前所有java进程pid的命令，适合在linux/unix平台上简单察看当前java进程的一些简单情况。
+        E:\project\LeetCode>jps
+        5564 A20201130
+2.jstack 5564
+        Found one Java-level deadlock:
+        =============================
+        "Thread2":
+          waiting to lock monitor 0x0000026b1addde00 (object 0x00000006d0935748, a java.lang.String),
+          which is held by "Thread1"
+        "Thread1":
+          waiting to lock monitor 0x0000026b1b8a2800 (object 0x00000006d0935778, a java.lang.String),
+          which is held by "Thread2"
+
+
+如何避免死锁呢?
+1.尽量避免使用多个锁，并且只有需要时才持有锁
+2.使用带超时的方法，为程序带来更多可控性。类似 Object.wait(…) 或者 CountDownLatch.await(…)，都支持所谓的 timed_wait
+
+
+PS:
+1 .可以通过 top 等查看cpu资源确定是否死锁
+2. 对任务线程进行规范命名，可以更方便定位问题。
+
+
