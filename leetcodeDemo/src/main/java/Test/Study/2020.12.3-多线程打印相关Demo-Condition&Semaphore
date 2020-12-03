@@ -1,0 +1,15 @@
+Condition：
+条件变量（java.util.concurrent.Condition）
+    如果说 ReentrantLock 是 synchronized 的替代选择，
+    Condition 则是将 wait、notify、notifyAll 等操作转化为相应的对象，将复杂而晦涩的同步操作转变为直观可控的对象行为。
+    Condition 中的 await() 方法相当于 Object 的 wait() 方法
+    Condition 中的 signal() 方法相当于Object 的 notify() 方法
+    Condition 中的 signalAll() 相当于 Object 的 notifyAll() 方法。
+    不同的是，Object 中的 wait(),notify(),notifyAll()方法是和"同步锁"(synchronized关键字)捆绑使用的；而 Condition 是需要与"互斥锁"/"共享锁"捆绑使用的。
+
+    参考DEMO:
+    首先通过 同一个再入锁 创建出来两个条件变量Conditon  .然后通过 signal/await 的组合，完成了条件判断和通知等待线程。
+    为什么需要2个Condtion呢:使用 Lock 锁的多个 Condition 可以实现精准唤醒
+
+
+
