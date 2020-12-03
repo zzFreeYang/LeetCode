@@ -12,4 +12,18 @@ Condition：
     为什么需要2个Condtion呢:使用 Lock 锁的多个 Condition 可以实现精准唤醒
 
 
+========================================================================================
+
+Condition 只是在原来Lock的基础上加了一个条件的维度，在很多情况下我们自己的业务都有一些自己的执行条件，条件不符合之前线程是没必要抢占锁，
+所有为每个条件设置一个Condition队列，条件未满足前大家都在对应的条件队列等待，等到条件满足了再唤醒对应条件队列的线程，去获得锁资源执行对应的业务.
+
+Lock内部创建的是AQS队列（双向链表），AQS队列由head和tail节点构成首尾节点
+Condtion创建的是一个单向链表队列，由firstWaiter 和lastWaiter 构成首尾节点。
+
+Lock 调用lock()、wait()、notify()、notifyAll()都是操作的AQS队列。
+Condition 里的 await()、signal()、signalAll() 会协调操作Condition队列和AQS队列。Condition.await()：释放当前线程获取的锁，创建一个Node节点加入到Condition队列，唤醒一个AQS队列的线程。Condition.signal(): 把Condition队列里的fisterWait节点移到AQS队列里。
+
+
+
+
 
