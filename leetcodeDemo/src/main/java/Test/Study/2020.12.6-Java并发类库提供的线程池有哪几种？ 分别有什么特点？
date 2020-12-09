@@ -1,0 +1,21 @@
+线程是不能够重复启动的，创建或销毁线程存在一定的开销，所以利用线程池技术来提高系统资源利用效率，并简化线程管理，已经是非常成熟的选择
+通常是使用 Executors 提供的通用线程池创建方法:
+newCachedThreadPool():  用来处理大量短时间工作任务的线程池。 它会试图缓存线程并重用，当无缓存线程可用时，就会创建新的工作线程；
+如果线程闲置的时间超过 60 秒，则被终止并移出缓存；长时间闲置时，这种线程池，不会消耗什么资源。其内部使用 SynchronousQueue 作为工作队列。
+固定线程池不同，此线程池的线程数不受限制
+
+newFixedThreadPool(int nThreads)：重用指定数目（nThreads）的线程，背后使用的是无界的工作队列。
+
+newSingleThreadExecutor()：它的特点在于工作线程数目被限制为 1，操作一个无界的工作队列，所以它保证了所有任务的都是被顺序执行，
+最多会有一个任务处于活动状态，并且不允许使用者改动线程池实例，因此可以避免其改变线程数目。
+
+newSingleThreadScheduledExecutor() 和 newScheduledThreadPool(int corePoolSize)，创建的是个 ScheduledExecutorService，可以进行定时或周期性的工作调度，区别在于单一工作线程还是多个工作线程。
+
+newWorkStealingPool(int parallelism)，这是一个经常被人忽略的线程池，Java 8 才加入这个创建方法，其内部会构建ForkJoinPool，利用Work-Stealing算法，并行地处理任务，不保证处理顺序。
+
+===============================================================================================================================================
+Java线程池 Executor接口 :
+Executor接口: java线程池框架的最上层父接口,只有一个execute方法，该方法的作用是向线程池提交任务并执行。
+ExecutorService接口：该接口继承自Executor接口，添加了shutdown、shutdownAll、submit、invokeAll等一系列对线程的操作方法，该接口比较重要，在使用线程池框架的时候，经常用到该接口。
+AbstractExecutorService:这是一个抽象类，实现ExecuotrService接口，
+ThreadPoolExecutor：这是Java线程池最核心的一个类，该类继承自AbstractExecutorService，主要功能是创建线程池，给任务分配线程资源，执行任务
