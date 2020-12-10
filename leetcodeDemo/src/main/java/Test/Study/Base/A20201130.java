@@ -1,4 +1,4 @@
-package Test.Study;
+package Test.Study.Base;
 
 /**
  *  简单的嵌套死锁检测代码:  两个线程相互持有各自的lock，却无法拿到另一个

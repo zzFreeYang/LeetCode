@@ -1,4 +1,4 @@
-package Test.Study;
+package Test.Study.Base;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
