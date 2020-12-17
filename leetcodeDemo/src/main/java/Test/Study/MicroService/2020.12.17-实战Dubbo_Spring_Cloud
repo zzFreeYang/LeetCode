@@ -1,0 +1,3 @@
+DepencyManagement应用场景:
+    模块很多，所以我们又抽象了一层来管理子项目的公共的依赖.
+    Maven会沿着父子层次向上走，直到找到一个拥有dependencyManagement元素的项目，然后它就会使用在这个dependencyManagement元素中指定的版本号。
