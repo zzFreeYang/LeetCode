@@ -14,3 +14,9 @@ https://github.com/2227324689/Spring-Cloud-Alibaba-
 how2ja2.cn
 https://how2j.cn/k/springcloud/springcloud-distribution/2037.html
 
+
+================================================================
+奇怪的BUG
+
+idea右侧maven管理窗口中，新加的这个功能模块是灰色的:
+https://blog.csdn.net/qq_43538158/article/details/106145299
