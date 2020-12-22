@@ -1,3 +1,53 @@
-DepencyManagement应用场景:
-    模块很多，所以我们又抽象了一层来管理子项目的公共的依赖.
-    Maven会沿着父子层次向上走，直到找到一个拥有dependencyManagement元素的项目，然后它就会使用在这个dependencyManagement元素中指定的版本号。
+1. 首先创建了一个Maven工程，里面有2个模块:
+    <modules>
+        <module>spring-cloud-dubbo-sample-provider</module>
+        <module>spring-cloud-dubbo-sample-api</module>
+    </modules>
+
+2. 在spring-cloud-dubbo-sample-api模块中写了一个接口IHelloService
+
+3. 在spring-cloud-dubbo-sample-provider中添加该依赖
+        <!--引入api依赖-->
+        <dependency>
+            <groupId>zzFree</groupId>
+            <artifactId>spring-cloud-dubbo-sample-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+4.  spring-cloud-dubbo-sample-provider核心依赖:
+spring-cloud-starter   SpringCloud核心包
+spring-cloud-starter-dubbo  引入Spring Cloud Alibaba Dubbo
+spring-cloud-starter-zookeeper-discovery  基于ZooKeeper实现服务注册发现
+
+5. spring-cloud-dubbo-sample-provider实现了IHelloService接口
+
+    @Service  //dubbo服务的注解:当前服务会发布为一个远程服务
+    public class HelloServiceImpl implements IHelloService {
+        @Value("${dubbo.application.name}")
+        private String serviceName ;
+        @Override
+        public String sayHello(String name) {
+            return name;
+        }
+    }
+
+6.配置文件application.properties
+dubbo.protocol.port=20880
+dubbo.protocol.name=dubbo
+
+spring.application.name=spring-cloud-dubbo-sample
+spring.cloud.zookeeper.discovery.register=true  #注册到注册中心
+spring.cloud.zookeeper.connect-string=localhost:2181
+
+7. 启动provider服务
+@DubboComponentScan
+@SpringBootApplication
+public class springclouddubbosampleproviderApplicaton {
+    public static void main(String[] args) {
+        SpringApplication.run(springclouddubbosampleproviderApplicaton.class, args);
+    }
+}
+
+//@DubboComponentScan 会扫码Service注解，实现服务的发布
+发布之后，可以看到节点，保存了相关信息，也就是在
+2020.12.22-Docker文本中的指令
