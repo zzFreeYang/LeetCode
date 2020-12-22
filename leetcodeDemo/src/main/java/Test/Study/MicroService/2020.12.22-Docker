@@ -1,0 +1,35 @@
+     使用docker启动Zookeeper镜像
+      docker run --name zookeeper -p 2181:2181 -d zookeeper:3.5
+
+显示有哪些容器镜像
+ docker image ls
+
+查看当前容器状态
+ docker container ls
+
+也可以点击dockDesktop里的Dashboard打开
+
+通过Cli进入终端界面;
+cd bin
+ls
+./zkCli.sh   登录服务端
+ls / :列出根节点下所有的子节点信息
+      output:[services, zookeeper]
+ls /services
+      output:[spring-cloud-dubbo-sample] 这个节点说明服务已经注册上来了
+
+ ls /services/spring-cloud-dubbo-sample
+      output:[2eb458b5-a459-49f2-a09b-6c1622301cf8]
+
+ get /services/spring-cloud-dubbo-sample/2eb458b5-a459-49f2-a09b-6c1622301cf8
+      output:   {"name":"spring-cloud-dubbo-sample","id":"2eb458b5-a459-49f2-a09b-6c1622301cf8","address":"DESKTOP-TO6QBLU",
+                    "port":8080,"sslPort":null,"payload":{"@class":"org.springframework.cloud.zookeeper.discovery.ZookeeperInstance",
+                    "id":"application-1","name":"spring-cloud-dubbo-sample","metadata":{"dubbo.metadata-service.urls":"
+                    [ \"dubbo://192.168.3.4:20880/com.alibaba.cloud.dubbo.service.DubboMetadataService?anyhost=true&
+                    application=spring-cloud-dubbo-sample&bind.ip=192.168.3.4&bind.port=20880&deprecated=false&dubbo=2.0.2
+                     &dynamic=true&generic=false&group=spring-cloud-dubbo-sample&interface=com.alibaba.cloud.dubbo.service.DubboMetadataService
+                    &methods=getAllServiceKeys,getServiceRestMetadata,getExportedURLs,getAllExportedURLs&pid=14208&qos.enable=false&register=true
+                    &release=2.7.3&revision=2.1.1.RELEASE&side=provider&timestamp=1608647398190&version=1.0.0\" ]","dubbo.protocols.dubbo.port":"20880"}}
+                    ,"registrationTimeUTC":1608647397086,"serviceType":"DYNAMIC","uriSpec":{"parts":[{"value":"scheme","variable":true},
+                    {"value":"://","variable":false},{"value":"address","variable":true},{"value":":","variable":false},{"value":"port","variable":true}]}}
+
