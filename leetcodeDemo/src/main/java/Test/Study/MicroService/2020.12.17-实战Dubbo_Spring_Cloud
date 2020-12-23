@@ -51,3 +51,45 @@ public class springclouddubbosampleproviderApplicaton {
 //@DubboComponentScan 会扫码Service注解，实现服务的发布
 发布之后，可以看到节点，保存了相关信息，也就是在
 2020.12.22-Docker文本中的指令
+
+
+==========================================
+到上面为止都是服务端的发布，然后是消费者的实现：
+
+1 .新建一个SpringBoot工程，这里主要是要注意Maven的配置
+
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-starter</artifactId>
+
+<groupId>com.alibaba.cloud</groupId>
+<artifactId>spring-cloud-starter-dubbo</artifactId>
+
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-web</artifactId>
+
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-starter-zookeeper-discovery</artifactId>
+//引入api包
+<artifactId>spring-cloud-dubbo-sample-api</artifactId>
+<version>1.0-SNAPSHOT</version>
+
+2.配置文件application.properties
+dubbo.cloud.subscribed-services=spring-cloud-dubbo-sample
+spring.application.name=spring-cloud-dubbo-consumer
+spring.cloud.zookeeper.discovery.register=false  //不注册
+spring.cloud.zookeeper.connect-string=localhost:2181
+server.port=8081
+
+3.写一个控制器
+@RestController
+public class HelloController {
+@Reference   //dubbo的注解，@Reference用于跨服调用
+    private IHelloService iHelloService;
+
+    @GetMapping("/say")
+    public String sayHello(){
+        return iHelloService.sayHello("mic");
+    }
+}
+
+4.访问http://127.0.0.1:8081/say ，可以看到正确调用了。
