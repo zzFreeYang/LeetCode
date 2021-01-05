@@ -23,13 +23,13 @@ public class ReverseLinkedList {
  //-----------------------start----------------------------
 
         ListNode prev = null;
-    ListNode curr = head;
+        ListNode curr = head;
         while (curr != null){
-        ListNode temp = curr.next;
-        curr.next = prev;
-        prev = curr;
-        curr = temp;
-    }
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
 //return prev;
 }
 
