@@ -45,3 +45,26 @@ class Solution {
 第三步：到底了（在此题中表示 start = size = 3），回到上一级，撤销选择 路径.remove(选择) ，对应代码
  tempList.remove(tempList.size() - 1);
 
+
+
+第39题 39.组合总和
+
+要注意的是，元素可以重复，所以递归的时候，len 还是原样传入  Combination_Sum Demo
+第40题，每个数字在每个组合中只能使用一次，所以要传入i+1 。
+并且，如何去重是一个难点:
+    先对数组 升序 排序，重复的元素一定不是排好序以后相同的连续数组区域的第 1 个元素。
+    也就是说，剪枝发生在：同一层数值相同的结点第 2、3 ... 个结点，
+    因为数值相同的第 1 个结点已经搜索出了包含了这个数值的全部结果，同一层的其它结点，候选数的个数更少，
+    搜索出的结果一定不会比第 1 个结点更多，并且是第 1 个结点的子集
+    https://leetcode-cn.com/problems/combination-sum-ii/solution/hui-su-suan-fa-jian-zhi-python-dai-ma-java-dai-m-3/
+
+            //大剪枝
+            if (target - candidates[i] < 0) {
+                break;
+            }
+
+            // 小剪枝：同一层相同数值的结点，从第 2 个开始，候选数更少，结果一定发生重复，因此跳过，用 continue
+            if (i > begin && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+
