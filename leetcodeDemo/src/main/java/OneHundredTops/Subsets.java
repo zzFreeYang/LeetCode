@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 给你一个整数数组 nums ，返回该数组所有可能的子集（幂集）。解集不能包含重复的子集。
+ *  78                         给你一个整数数组 nums ，返回该数组所有可能的子集（幂集）。解集不能包含重复的子集。
  *
  *输入：nums = [1,2,3]
  * 输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
@@ -24,13 +24,8 @@ public class Subsets {
         list.add(new ArrayList<>(tempList));
         for(int i = start ; i < nums.length ; i++){
             tempList.add(nums[i]);
-            System.out.println(  " i="+ i+"         list="+list.toString() + "          temList="+tempList.toString());
-
             backtrack(list, tempList, nums, i + 1);
-            System.out.println("撤回之前的tempList="+tempList.toString());
             tempList.remove(tempList.size() - 1);
-            System.out.println("撤回之后的tempList="+tempList.toString());
-
         }
 
     }
