@@ -35,7 +35,10 @@ Redis
 
 
     3.哈希
-        哈希键的底层实现1: 字典
+        哈希键的底层实现1: 字典 （举例： 通过HSET给person设置多个键值对,age 20,name jack，然后可以通过hgetall person 来获取）
+        字典的底层就是hash,基本结构:哈希表数组 + 哈希表大小 size + 哈希表大小掩码(计算索引) sizemask + 已有节点的数量 used
+
+
     4.集合
     5.有序集合
 
