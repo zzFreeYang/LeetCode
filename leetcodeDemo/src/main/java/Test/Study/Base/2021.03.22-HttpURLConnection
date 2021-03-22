@@ -12,6 +12,10 @@ URL的构造方法很简单，主要做了如下几件事情：
 2> 通过getURLStreamHandler方法获取处理protocol 协议对应的URLStreamHandler
 3> 利用URLStreamHandler的parseURL方法解析URL字符串
 
+getURLStreamHandler(protocol)这个方法里核心的代码如下：
+可以看到，这里会根据protocol去相应的包里面去加载Handler类，比如，如果protocol是HTTP的，就加载sun.net.www.protocol.http.Handler这个类，并通过反射来new一个实例出来。 接下来就是通过这个Handler来解析和构造这个URL对象了：
+
+
 
 第二步,调用openConnection：
  httpURLConnection = (HttpURLConnection) realUrl.openConnection();
@@ -19,6 +23,9 @@ URL的构造方法很简单，主要做了如下几件事情：
 调用的是 return handler.openConnection(this);
 handler是URLStreamHandler，可以发现这个是个抽象类
 也是用的URL的openConnection方法。
+openConnection()并没有开始去请求网络，它做的工作只是封装好请求。
 
-
-
+回到调用流程，接着是调用connect：
+第三步:
+ httpURLConnection.connect();
+真正调用了http的相关方法
