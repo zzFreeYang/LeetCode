@@ -1,0 +1,24 @@
+ HttpURLConnection 是抽象类:
+    n只是做了http状态码的定义，默认head定义，和ssl工厂，hostName审核器的判断定义。
+    真真正正的 connect() 的实现，都是没有的。也就是说，这两个类抽象的部分，就是网络请求的根本部分。
+
+第一步:定义URL
+URL realUrl = new URL("http://127.0.0.1:8080");
+会调用代码完成url和httphandler的创建，并对URL类中8各重要成员通过URLStreamHandler完成赋值。
+//通过URLSteamHandler来设置URL.java中的几个成员属性，即
+            //(String protocol, String host, int port,String authority, String userInfo, String path,String query, String ref)
+URL的构造方法很简单，主要做了如下几件事情：
+1> 解析出URL字符串中的协议，即上面代码中的protocol
+2> 通过getURLStreamHandler方法获取处理protocol 协议对应的URLStreamHandler
+3> 利用URLStreamHandler的parseURL方法解析URL字符串
+
+
+第二步,调用openConnection：
+ httpURLConnection = (HttpURLConnection) realUrl.openConnection();
+
+调用的是 return handler.openConnection(this);
+handler是URLStreamHandler，可以发现这个是个抽象类
+也是用的URL的openConnection方法。
+
+
+
