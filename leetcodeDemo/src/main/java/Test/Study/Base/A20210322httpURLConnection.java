@@ -4,12 +4,18 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class A20210322httpURLConnection {
 
+
     public static void main(String[] args) throws IOException {
         try{
-        String result = "";
+            final Logger rootLogger = Logger.getLogger("sun.util.logging.PlatformLogger");
+            rootLogger.setLevel(Level.ALL);
+            rootLogger.info("111111111111111");
+            String result = "";
         BufferedReader br = null;
         BufferedWriter bw = null;
         HttpURLConnection httpURLConnection = null;
@@ -26,8 +32,7 @@ public class A20210322httpURLConnection {
 
         httpURLConnection.setRequestProperty("accept", "*/*");
         httpURLConnection.setRequestProperty("connection", "Keep-Alive");
-
-        // 建立实际的连接
+            // 建立实际的连接
         System.out.println("!!!!!!!!!!!!!!  to connect !!!!!!!!!!!!!!!!!!!");
         httpURLConnection.connect();
         System.out.println("~~~~~~~~~~~~~~    connected ~~~~~~~~~~~~~~~~~~~~~~~~~");
